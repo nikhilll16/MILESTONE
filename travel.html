@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Kudla - Tourism Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+        }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .banner {
+            background-image: url('image4.png');
+            background-size: cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .section {
+            margin: 2rem 0;
+        }
+        .posts, .destinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .post, .destination {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .post img, .destination img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .comments {
+            margin-top: 1rem;
+        }
+        .comment {
+            background: #f9f9f9;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, textarea, button {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .guide-profile {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .dashboard {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .dashboard.show {
+            display: block;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+       
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #2c3e50;
+            }
+            nav ul.show {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .posts, .destinations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Namma Kudla</div>
+            <ul id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#guides">Guides</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="section">
+            <div class="banner">
+                <div>
+                    <h1>Welcome to Namma Kudla</h1>
+                    <p>Explore the cultural heritage, natural beauty, and attractions of Kudla.</p>
+                </div>
+            </div>
+            <h2>Featured Posts</h2>
+            <div class="posts" id="featured-posts">
+            </div>
+            <h2>Popular Destinations</h2>
+            <div class="destinations" id="popular-destinations">
+            </div>
+            <h2>Newsletter Subscription</h2>
+            <form id="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+
+        <section id="blog" class="section" style="display: none;">
+            <h2>Blog Posts</h2>
+            <div id="blog-posts">
+            </div>
+            <div class="sidebar">
+                <h3>Categories</h3>
+                <ul id="categories">
+                </ul>
+                <h3>Recent Posts</h3>
+                <ul id="recent-posts">
+                </ul>
+            </div>
+        </section>
+
+        <section id="destinations" class="section" style="display: none;">
+            <h2>Destinations</h2>
+            <div id="destination-list">
+            </div>
+        </section>
+
+        <section id="guides" class="section" style="display: none;">
+            <h2>Guide Profiles</h2>
+            <div class="guide-profile" id="guide-profile">
+            </div>
+        </section>
+
+        <section id="dashboard" class="section dashboard" style="display: none;">
+            <h2>Dashboard Overview</h2>
+            <div class="stats">
+                <div class="stat">
+                    <h3>Total Users</h3>
+                    <p id="total-users">150</p>
+                </div>
+                <div class="stat">
+                    <h3>Recent Activities</h3>
+                    <p id="recent-activities">5 new posts</p>
+                </div>
+            </div>
+            <h3>User Management</h3>
+            <form id="user-form">
+                <input type="text" placeholder="Username" id="username">
+                <select id="role">
+                    <option value="visitor">Visitor</option>
+                    <option value="blogger">Blogger</option>
+                    <option value="guide">Guide</option>
+                </select>
+                <button type="submit">Add User</button>
+            </form>
+            <ul id="user-list">
+            </ul>
+            <h3>Content Management</h3>
+            <form id="content-form">
+                <input type="text" placeholder="Post Title" id="post-title">
+                <textarea placeholder="Content" id="post-content"></textarea>
+                <button type="submit">Add Post</button>
+            </form>
+            <ul id="content-list">
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Nikhil. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navMenu = document.getElementById('nav-menu');
+            const hamburger = document.getElementById('hamburger');
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('show');
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    sections.forEach(section => {
+                        section.style.display = section.id === targetId ? 'block' : 'none';
+                    });
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('show');
+                    }
+                });
+            });
+
+            
+            const posts = [
+                { title: 'Exploring Kudla Beaches', author: 'Nikhil', date: '2025-11-10', content: 'Beautiful beaches...', image: 'panambur-beach-mangalore-tourism-entry-fee-timings-holidays-reviews-header.jpg' },
+                { title: 'Cultural Heritage of Kudla', author: 'Virat', date: '2025-09-15', content: 'Rich history...', image: '1666882541_img_1175.jpeg' }
+            ];
+            const destinations = [
+                { name: 'Kadri Temple', description: 'A historic temple known for its architecture and religious significance.', image: 'Kadri.jpg', map: '<iframe src="https://maps.google.com/maps?q=Kadri%20Temple%2C%20Mangalore&t=&z=15&ie=UTF8&iwloc=&output=embed" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>' },
+                { name: 'Panamboor Beach', description: 'A serene beach offering stunning views and a peaceful retreat.', image: 'Panambur-Beach.jpg', map: '<iframe src="https://maps.google.com/maps?q=Panamboor%20Beach%2C%20Mangalore&t=&z=15&ie=UTF8&iwloc=&output=embed" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>' },
+                { name: 'Pilikula Zoo', description: 'Home to a variety of animals, perfect for family outings and wildlife enthusiasts.', image: 'zoo.jpg', map: '<iframe src="https://maps.google.com/maps?q=Pilikula%20Zoo%2C%20Mangalore&t=&z=15&ie=UTF8&iwloc=&output=embed" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>' }
+            ];
+            const guides = [
+                { name: 'Nikhil', bio: 'Expert in Kudla culture...', expertise: 'History', social: 'https://www.linkedin.com/' }
+            ];
+            const users = [];
+            const contents = [];
+
+            const featuredPostsEl = document.getElementById('featured-posts');
+            posts.forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = 'post';
+                postEl.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}">
+                    <h3>${post.title}</h3>
+                    <p>By ${post.author} on ${post.date}</p>
+                    <p>${post.content}</p>
+                    <div class="comments">
+                        <h4>Comments</h4>
+                        <div id="comments-${post.title.replace(/\s/g, '-')}"></div>
+                        <form class="comment-form" data-post="${post.title}">
+                            <input type="text" placeholder="Name" required>
+                            <textarea placeholder="Comment" required></textarea>
+                            <button type="submit">Post Comment</button>
+                        </form>
+                    </div>
+                `;
+                featuredPostsEl.appendChild(postEl);
+            });
+
+            const popularDestinationsEl = document.getElementById('popular-destinations');
+            destinations.forEach(dest => {
+                const destEl = document.createElement('div');
+                destEl.className = 'destination';
+                destEl.innerHTML = `
+                    <img src="${dest.image}" alt="${dest.name}">
+                    <h3>${dest.name}</h3>
+                    <p>${dest.description}</p>
+                    ${dest.map}
+                `;
+                popularDestinationsEl.appendChild(destEl);
+            });
+            
+
+            const blogPostsEl = document.getElementById('blog-posts');
+            posts.forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = 'post';
+                postEl.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}">
+                    <h3>${post.title}</h3>
+                    <p>By ${post.author} on ${post.date}</p>
+                    <p>${post.content}</p>
+                    <div class="comments">
+                        <h4>Comments</h4>
+                        <div id="comments-blog-${post.title.replace(/\s/g, '-')}"></div>
+                        <form class="comment-form" data-post="${post.title}">
+                            <input type="text" placeholder="Name" required>
+                            <textarea placeholder="Comment" required></textarea>
+                            <button type="submit">Post Comment</button>
+                        </form>
+                    </div>
+                `;
+                blogPostsEl.appendChild(postEl);
+            });
+
+            const destinationListEl = document.getElementById('destination-list');
+            destinations.forEach(dest => {
+                const destEl = document.createElement('div');
+                destEl.className = 'destination';
+                destEl.innerHTML = `
+                    <img src="${dest.image}" alt="${dest.name}">
+                    <h3>${dest.name}</h3>
+                    <p>${dest.description}</p>
+                    <p>Related posts: ${posts.filter(p => p.title.includes(dest.name.split(' ')[0])).map(p => p.title).join(', ')}</p>
+                    ${dest.map}
+                `;
+                destinationListEl.appendChild(destEl);
+            });
+
+            const guideProfileEl = document.getElementById('guide-profile');
+            guides.forEach(guide => {
+                guideProfileEl.innerHTML = `
+                    <h3>${guide.name}</h3>
+                    <p>${guide.bio}</p>
+                    <p>Expertise: ${guide.expertise}</p>
+                    <p>Social: <a href="${guide.social}">${guide.social}</a></p>
+                    <button>Contact Guide</button>
+                    <div class="feedback">
+                        <h4>Feedback</h4>
+                        <form class="feedback-form">
+                            <textarea placeholder="Leave feedback" required></textarea>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                `;
+            });
+
+            document.addEventListener('submit', function(e) {
+                if (e.target.classList.contains('comment-form')) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const postTitle = form.dataset.post;
+                    const name = form.querySelector('input').value;
+                    const comment = form.querySelector('textarea').value;
+                    const commentsEl = document.getElementById(`comments-${postTitle.replace(/\s/g, '-')}`) || document.getElementById(`comments-blog-${postTitle.replace(/\s/g, '-')}`);
+                    const commentEl = document.createElement('div');
+                    commentEl.className = 'comment';
+                    commentEl.innerHTML = `<strong>${name}:</strong> ${comment}`;
+                    commentsEl.appendChild(commentEl);
+                    form.reset();
+                }
+            });
+
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Subscribed!');
+            });
+
+            document.getElementById('user-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const role = document.getElementById('role').value;
+                users.push({ username, role });
+                updateUserList();
+                this.reset();
+            });
+
+            function updateUserList() {
+                const userListEl = document.getElementById('user-list');
+                userListEl.innerHTML = '';
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.username} (${user.role})`;
+                    userListEl.appendChild(li);
+                });
+            }
+
+            document.getElementById('content-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const title = document.getElementById('post-title').value;
+                const content = document.getElementById('post-content').value;
+                contents.push({ title, content });
+                updateContentList();
+                this.reset();
+            });
+
+            function updateContentList() {
+                const contentListEl = document.getElementById('content-list');
+                contentListEl.innerHTML = '';
+                contents.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item.title;
+                    contentListEl.appendChild(li);
+                });
+            }
+
+            updateUserList();
+            updateContentList();
+        });
+    </script>
+</body>
+</html>
